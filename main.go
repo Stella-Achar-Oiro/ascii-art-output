@@ -1,19 +1,14 @@
 package main
 
 import (
-	ascii "ascii-art-output/banner"
 	"fmt"
 	"os"
 	"strings"
+
+	ascii "ascii-art-output/banner"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
-		fmt.Println("Example: go run . --output=<fileName.txt> something standard")
-		os.Exit(1)
-	}
-
 	var outputFileName string
 	var input string
 
@@ -26,7 +21,8 @@ func main() {
 		}
 		input = os.Args[2]
 	} else {
-		input = os.Args[1]
+		fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]")
+		fmt.Println("Example: go run . --output=<fileName.txt> something standard")
 	}
 
 	input = strings.ReplaceAll(input, "\\n", "\n")
@@ -55,14 +51,14 @@ func main() {
 		}
 	}
 
-	// Print the formatted output to the console
-	fmt.Print(formattedOutput.String())
-
 	// Write the output to the specified file if --output flag is provided
 	if outputFileName != "" {
 		err := ascii.WriteToFile(outputFileName, formattedOutput.String())
 		if err != nil {
 			fmt.Printf("Error writing to file: %v\n", err)
 		}
+	} else {
+		// Print the formatted output to the console
+		fmt.Print(formattedOutput.String())
 	}
 }
